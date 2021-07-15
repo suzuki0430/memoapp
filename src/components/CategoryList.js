@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import List from '@material-ui/core/List';
@@ -13,6 +13,8 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 
 import informations from '../apis/informations';
+
+import { MemoContext } from '../providers/memoProvider';
 
 export const CategoryList = () => {
   const useStyles = makeStyles((theme) => ({
@@ -30,6 +32,8 @@ export const CategoryList = () => {
   const [categoryList, setCategoryList] = useState([]);
   const [memoList, setMemoList] = useState([]);
   const [selectedId, setSelectedId] = useState('');
+
+  const { setMemoTitle, setMemoContent } = useContext(MemoContext);
 
   // フォルダをクリックしたときの処理
   const handleClick = (id) => {
@@ -67,7 +71,8 @@ export const CategoryList = () => {
 
     // 展開するフォルダのメモを取得する
     informations.get(`/memo/${id}`, data).then((res) => {
-      console.log(res);
+      setMemoTitle(res.data.title);
+      setMemoContent(res.data.content);
     });
   };
 
