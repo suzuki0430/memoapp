@@ -57,7 +57,19 @@ export const CategoryList = () => {
   };
 
   // メモをクリックしたときの処理
-  const handleMemoClick = (id) => {};
+  const handleMemoClick = (id) => {
+    let data = {
+      headers: {
+        'X-ACCESS-TOKEN': '0f28d368-4347-4653-b4b6-94392e644447',
+        'content-type': 'application/json',
+      },
+    };
+
+    // 展開するフォルダのメモを取得する
+    informations.get(`/memo/${id}`, data).then((res) => {
+      console.log(res);
+    });
+  };
 
   useEffect(() => {
     let data = {
