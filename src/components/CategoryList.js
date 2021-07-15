@@ -33,7 +33,8 @@ export const CategoryList = () => {
   const [memoList, setMemoList] = useState([]);
   const [selectedId, setSelectedId] = useState('');
 
-  const { setMemoTitle, setMemoContent } = useContext(MemoContext);
+  const { setMemoId, setMemoTitle, setMemoContent, setMemoCategoryId } =
+    useContext(MemoContext);
 
   // フォルダをクリックしたときの処理
   const handleClick = (id) => {
@@ -71,6 +72,8 @@ export const CategoryList = () => {
 
     // 展開するフォルダのメモを取得する
     informations.get(`/memo/${id}`, data).then((res) => {
+      setMemoId(res.data.id);
+      setMemoCategoryId(res.data.category_id);
       setMemoTitle(res.data.title);
       setMemoContent(res.data.content);
     });
