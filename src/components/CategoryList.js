@@ -109,7 +109,18 @@ export const CategoryList = () => {
     };
 
     informations.post(`/memo`, body, data).then((res) => {
-      console.log(res);
+      // メモアイテムを更新する
+      informations
+        .get(`/memo/?category_id=${category_id}`, data)
+        .then((res) => {
+          setMemoList(res.data);
+        });
+
+      // 追加したメモが表示されるようにグローバルStateを更新する
+      setMemoId(res.data.id);
+      setMemoCategoryId(res.data.category_id);
+      setMemoTitle(res.data.title);
+      setMemoContent(res.data.content);
     });
   };
 
