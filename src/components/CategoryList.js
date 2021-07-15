@@ -31,6 +31,7 @@ export const CategoryList = () => {
   const [memoList, setMemoList] = useState([]);
   const [selectedId, setSelectedId] = useState('');
 
+  // フォルダをクリックしたときの処理
   const handleClick = (id) => {
     // 展開中のフォルダのメモを初期化する
     setMemoList([]);
@@ -54,6 +55,9 @@ export const CategoryList = () => {
       setSelectedId(id);
     }
   };
+
+  // メモをクリックしたときの処理
+  const handleMemoClick = (id) => {};
 
   useEffect(() => {
     let data = {
@@ -93,23 +97,24 @@ export const CategoryList = () => {
             </ListItem>
 
             <Collapse in={list.id === selectedId} timeout="auto" unmountOnExit>
-              {memoList.map((memo, index) => {
-                return (
-                  <List
-                    id={`memo-${memo.id}`}
-                    component="div"
-                    disablePadding
-                    key={index}
-                  >
-                    <ListItem button className={classes.nested}>
+              <List component="div" disablePadding>
+                {memoList.map((memo, index) => {
+                  return (
+                    <ListItem
+                      id={`memo-${memo.id}`}
+                      button
+                      className={classes.nested}
+                      key={index}
+                      onClick={() => handleMemoClick(memo.id)}
+                    >
                       <ListItemIcon>
                         <InsertDriveFileIcon />
                       </ListItemIcon>
                       <ListItemText primary={memo.title} />
                     </ListItem>
-                  </List>
-                );
-              })}
+                  );
+                })}
+              </List>
             </Collapse>
           </React.Fragment>
         );
