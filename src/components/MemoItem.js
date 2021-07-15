@@ -49,7 +49,7 @@ export const MemoItem = () => {
 
     let data = {
       headers: {
-        'X-ACCESS-TOKEN': '0f28d368-4347-4653-b4b6-94392e644447',
+        'X-ACCESS-TOKEN': '0f28d368-4347-4653-b4b6-94392e644444',
         'content-type': 'application/json',
       },
     };
@@ -93,7 +93,7 @@ export const MemoItem = () => {
             disabled={disabled}
             onClick={() => handleSave(memoId, memoCategoryId, title, content)}
           >
-            Save
+            <span style={{ color: '#fff' }}>SAVE</span>
           </Button>
         </ThemeProvider>
       </div>

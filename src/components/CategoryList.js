@@ -11,6 +11,9 @@ import FolderIcon from '@material-ui/icons/Folder';
 import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
+import { createTheme, ThemeProvider } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import { green } from '@material-ui/core/colors';
 
 import informations from '../apis/informations';
 
@@ -21,11 +24,19 @@ export const CategoryList = () => {
     root: {
       width: '100%',
       maxWidth: 360,
+      borderRight: '1px solid rgba(0, 0, 0, 0.12)',
+      borderBottom: '2px solid rgba(0, 0, 0, 0.12)',
     },
     nested: {
       paddingLeft: theme.spacing(4),
     },
   }));
+
+  const theme = createTheme({
+    palette: {
+      primary: green,
+    },
+  });
 
   const classes = useStyles();
 
@@ -43,7 +54,7 @@ export const CategoryList = () => {
 
     let data = {
       headers: {
-        'X-ACCESS-TOKEN': '0f28d368-4347-4653-b4b6-94392e644447',
+        'X-ACCESS-TOKEN': '0f28d368-4347-4653-b4b6-94392e644444',
         'content-type': 'application/json',
       },
     };
@@ -65,7 +76,7 @@ export const CategoryList = () => {
   const handleMemoClick = (id) => {
     let data = {
       headers: {
-        'X-ACCESS-TOKEN': '0f28d368-4347-4653-b4b6-94392e644447',
+        'X-ACCESS-TOKEN': '0f28d368-4347-4653-b4b6-94392e644444',
         'content-type': 'application/json',
       },
     };
@@ -82,7 +93,7 @@ export const CategoryList = () => {
   useEffect(() => {
     let data = {
       headers: {
-        'X-ACCESS-TOKEN': '0f28d368-4347-4653-b4b6-94392e644447',
+        'X-ACCESS-TOKEN': '0f28d368-4347-4653-b4b6-94392e644444',
         'content-type': 'application/json',
       },
     };
@@ -93,52 +104,74 @@ export const CategoryList = () => {
   }, []);
 
   return (
-    <List
-      component="nav"
-      aria-labelledby="nested-list-subheader"
-      className={classes.root}
-    >
-      {categoryList.map((list, index) => {
-        return (
-          <React.Fragment key={list.id}>
-            <ListItem
-              id={`category-${list.id}`}
-              button
-              onClick={() => handleClick(list.id)}
-            >
-              <ListItemIcon>
-                <FolderIcon />
-              </ListItemIcon>
-              <ListItemText
-                id={`category-${list.id}-title`}
-                primary={list.name}
-              />
-              {list.id === selectedId ? <ExpandLess /> : <ExpandMore />}
-            </ListItem>
+    <div className={classes.root}>
+      <List component="nav" aria-labelledby="nested-list-subheader">
+        {categoryList.map((list, index) => {
+          return (
+            <React.Fragment key={list.id}>
+              <ListItem
+                id={`category-${list.id}`}
+                button
+                onClick={() => handleClick(list.id)}
+              >
+                <ListItemIcon>
+                  <FolderIcon />
+                </ListItemIcon>
+                <ListItemText
+                  id={`category-${list.id}-title`}
+                  primary={list.name}
+                />
+                {list.id === selectedId ? <ExpandLess /> : <ExpandMore />}
+              </ListItem>
 
-            <Collapse in={list.id === selectedId} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding>
-                {memoList.map((memo, index) => {
-                  return (
-                    <ListItem
-                      id={`memo-${memo.id}`}
-                      button
-                      className={classes.nested}
-                      key={index}
-                      onClick={() => handleMemoClick(memo.id)}
-                    >
-                      <ListItemIcon>
-                        <InsertDriveFileIcon />
-                      </ListItemIcon>
-                      <ListItemText primary={memo.title} />
-                    </ListItem>
-                  );
-                })}
-              </List>
-            </Collapse>
-          </React.Fragment>
-        );
-      })}
-    </List>
+              <Collapse
+                in={list.id === selectedId}
+                timeout="auto"
+                unmountOnExit
+              >
+                <List component="div" disablePadding>
+                  {memoList.map((memo, index) => {
+                    return (
+                      <ListItem
+                        id={`memo-${memo.id}`}
+                        button
+                        className={classes.nested}
+                        key={index}
+                        onClick={() => handleMemoClick(memo.id)}
+                      >
+                        <ListItemIcon>
+                          <InsertDriveFileIcon />
+                        </ListItemIcon>
+                        <ListItemText primary={memo.title} />
+                      </ListItem>
+                    );
+                  })}
+                </List>
+              </Collapse>
+            </React.Fragment>
+          );
+        })}
+      </List>
+      <div
+        style={{
+          textAlign: 'end',
+          marginTop: 10,
+          marginBottom: 15,
+          paddingRight: 10,
+        }}
+      >
+        <ThemeProvider theme={theme}>
+          <Button
+            id="new-memo"
+            variant="contained"
+            color="primary"
+            // disabled={disabled}
+            // onClick={() => handleSave(memoId, memoCategoryId, title, content)}
+          >
+            <span style={{ color: '#fff' }}>NEW</span>
+          </Button>
+        </ThemeProvider>
+      </div>
+    </div>
   );
 };
