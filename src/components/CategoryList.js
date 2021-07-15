@@ -43,6 +43,7 @@ export const CategoryList = () => {
   const [categoryList, setCategoryList] = useState([]);
   const [memoList, setMemoList] = useState([]);
   const [selectedId, setSelectedId] = useState('');
+  const [disabled, setDisabled] = useState(true);
 
   const { setMemoId, setMemoTitle, setMemoContent, setMemoCategoryId } =
     useContext(MemoContext);
@@ -67,8 +68,10 @@ export const CategoryList = () => {
     // フォルダごとに展開・縮小を制御する
     if (selectedId === id) {
       setSelectedId('');
+      setDisabled(true);
     } else {
       setSelectedId(id);
+      setDisabled(false);
     }
   };
 
@@ -87,6 +90,26 @@ export const CategoryList = () => {
       setMemoCategoryId(res.data.category_id);
       setMemoTitle(res.data.title);
       setMemoContent(res.data.content);
+    });
+  };
+
+  // NEWボタンをクリックしたときの処理
+  const handleNew = (category_id) => {
+    const body = {
+      category_id,
+      title: 'はじめの一歩ガチャ',
+      content: 'ジェイソン尾妻かぶりがち',
+    };
+
+    let data = {
+      headers: {
+        'X-ACCESS-TOKEN': '0f28d368-4347-4653-b4b6-94392e644444',
+        'content-type': 'application/json',
+      },
+    };
+
+    informations.post(`/memo`, body, data).then((res) => {
+      console.log(res);
     });
   };
 
@@ -165,8 +188,8 @@ export const CategoryList = () => {
             id="new-memo"
             variant="contained"
             color="primary"
-            // disabled={disabled}
-            // onClick={() => handleSave(memoId, memoCategoryId, title, content)}
+            disabled={disabled}
+            onClick={() => handleNew(selectedId)}
           >
             <span style={{ color: '#fff' }}>NEW</span>
           </Button>
