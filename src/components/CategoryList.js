@@ -77,18 +77,30 @@ export const CategoryList = () => {
       {categoryList.map((list, index) => {
         return (
           <React.Fragment key={list.id}>
-            <ListItem button onClick={() => handleClick(list.id)}>
+            <ListItem
+              id={`category-${list.id}`}
+              button
+              onClick={() => handleClick(list.id)}
+            >
               <ListItemIcon>
                 <FolderIcon />
               </ListItemIcon>
-              <ListItemText primary={list.name} />
+              <ListItemText
+                id={`category-${list.id}-title`}
+                primary={list.name}
+              />
               {list.id === selectedId ? <ExpandLess /> : <ExpandMore />}
             </ListItem>
 
             <Collapse in={list.id === selectedId} timeout="auto" unmountOnExit>
               {memoList.map((memo, index) => {
                 return (
-                  <List component="div" disablePadding key={index}>
+                  <List
+                    id={`memo-${memo.id}`}
+                    component="div"
+                    disablePadding
+                    key={index}
+                  >
                     <ListItem button className={classes.nested}>
                       <ListItemIcon>
                         <InsertDriveFileIcon />
