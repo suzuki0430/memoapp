@@ -16,7 +16,8 @@ export const MemoItem = () => {
     },
   });
 
-  const [value, setValue] = useState('');
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
 
   const [disabled, setDisabled] = useState(true);
 
@@ -25,11 +26,18 @@ export const MemoItem = () => {
 
   useEffect(() => {
     if (memoTitle === '' || memoContent === '') return;
+
+    setTitle(memoTitle);
+    setContent(memoContent);
     setDisabled(false);
   }, [memoTitle, memoContent]);
 
-  const handleChange = (event) => {
-    setValue(event.target.value);
+  const handleTitleChange = (e) => {
+    setTitle(e.target.value);
+  };
+
+  const handleContentChange = (e) => {
+    setContent(e.target.value);
   };
 
   const handleSave = (id, category_id, title, content) => {
@@ -59,8 +67,8 @@ export const MemoItem = () => {
           type="text"
           fullWidth
           placeholder="Titleを入力してください"
-          value={memoTitle}
-          onChange={handleChange}
+          value={title}
+          onChange={handleTitleChange}
           disabled={disabled}
         />
       </div>
@@ -71,7 +79,8 @@ export const MemoItem = () => {
           fullWidth
           rows="10"
           placeholder="Contentを入力してください"
-          value={memoContent}
+          value={content}
+          onChange={handleContentChange}
           disabled={disabled}
         />
       </div>
@@ -82,9 +91,7 @@ export const MemoItem = () => {
             variant="contained"
             color="primary"
             disabled={disabled}
-            onClick={() =>
-              handleSave(memoId, memoCategoryId, memoTitle, memoContent)
-            }
+            onClick={() => handleSave(memoId, memoCategoryId, title, content)}
           >
             Save
           </Button>
