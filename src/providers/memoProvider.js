@@ -11,6 +11,10 @@ const defaultValue = {
   setMemoCategoryId: () => {},
   memoList: [],
   setMemoList: () => {},
+  categoryList: [],
+  setCategoryList: () => {},
+  accessToken: '',
+  setAccessToken: () => {},
 };
 
 export const MemoContext = createContext(defaultValue);
@@ -21,6 +25,8 @@ export const MemoProvider = ({ children }) => {
   const [memoContent, setMemoContent] = useState('');
   const [memoCategoryId, setMemoCategoryId] = useState(null);
   const [memoList, setMemoList] = useState([]);
+  const [categoryList, setCategoryList] = useState([]);
+  const [accessToken, setAccessToken] = useState('');
 
   return (
     <MemoContext.Provider
@@ -35,6 +41,10 @@ export const MemoProvider = ({ children }) => {
         setMemoCategoryId,
         memoList,
         setMemoList,
+        categoryList,
+        setCategoryList,
+        accessToken,
+        setAccessToken,
       }}
     >
       {children}

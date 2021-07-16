@@ -40,7 +40,6 @@ export const CategoryList = () => {
 
   const classes = useStyles();
 
-  const [categoryList, setCategoryList] = useState([]);
   const [selectedId, setSelectedId] = useState('');
   const [disabled, setDisabled] = useState(true);
 
@@ -51,6 +50,8 @@ export const CategoryList = () => {
     setMemoCategoryId,
     memoList,
     setMemoList,
+    categoryList,
+    accessToken,
   } = useContext(MemoContext);
 
   // フォルダをクリックしたときの処理
@@ -60,7 +61,7 @@ export const CategoryList = () => {
 
     let data = {
       headers: {
-        'X-ACCESS-TOKEN': '0f28d368-4347-4653-b4b6-94392e644444',
+        'X-ACCESS-TOKEN': accessToken,
         'content-type': 'application/json',
       },
     };
@@ -84,7 +85,7 @@ export const CategoryList = () => {
   const handleMemoClick = (id) => {
     let data = {
       headers: {
-        'X-ACCESS-TOKEN': '0f28d368-4347-4653-b4b6-94392e644444',
+        'X-ACCESS-TOKEN': accessToken,
         'content-type': 'application/json',
       },
     };
@@ -108,7 +109,7 @@ export const CategoryList = () => {
 
     let data = {
       headers: {
-        'X-ACCESS-TOKEN': '0f28d368-4347-4653-b4b6-94392e644444',
+        'X-ACCESS-TOKEN': accessToken,
         'content-type': 'application/json',
       },
     };
@@ -128,19 +129,6 @@ export const CategoryList = () => {
       setMemoContent(res.data.content);
     });
   };
-
-  useEffect(() => {
-    let data = {
-      headers: {
-        'X-ACCESS-TOKEN': '0f28d368-4347-4653-b4b6-94392e644444',
-        'content-type': 'application/json',
-      },
-    };
-
-    informations.get(`/category`, data).then((res) => {
-      setCategoryList(res.data);
-    });
-  }, []);
 
   return (
     <div className={classes.root}>

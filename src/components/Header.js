@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -7,6 +7,9 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Input from '@material-ui/core/Input';
+
+import informations from '../apis/informations';
+import { MemoContext } from '../providers/memoProvider';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,10 +30,13 @@ const useStyles = makeStyles((theme) => ({
 export const Header = () => {
   const classes = useStyles();
 
-  const [token, setToken] = useState('');
+  const [disabled, setDisabled] = useState(false);
+
+  const { setCategoryList, accessToken, setAccessToken } =
+    useContext(MemoContext);
 
   const handleChange = (e) => {
-    setToken(e.target.value);
+    setAccessToken(e.target.value);
   };
 
   const isLoginEnabled = (str) => {
@@ -38,6 +44,20 @@ export const Header = () => {
       /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/;
 
     return !ratz.test(str);
+  };
+
+  const handleLogin = (access_token) => {
+    let data = {
+      headers: {
+        'X-ACCESS-TOKEN': access_token,
+        'content-type': 'application/json',
+      },
+    };
+
+    informations.get(`/category`, data).then((res) => {
+      setCategoryList(res.data);
+      setDisabled(true);
+    });
   };
 
   return (
@@ -60,10 +80,16 @@ export const Header = () => {
             className={classes.input}
             type="text"
             placeholder="0f28d368-4347-4653-b4b6-94392e644444"
-            value={token}
+            value={accessToken}
+            disabled={disabled}
             onChange={handleChange}
           />
-          <Button id="login" color="inherit" disabled={isLoginEnabled(token)}>
+          <Button
+            id="login"
+            color="inherit"
+            disabled={isLoginEnabled(accessToken) || disabled}
+            onClick={() => handleLogin(accessToken)}
+          >
             LOGIN
           </Button>
         </Toolbar>

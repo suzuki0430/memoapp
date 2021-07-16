@@ -30,6 +30,7 @@ export const MemoItem = () => {
     setMemoContent,
     memoCategoryId,
     setMemoList,
+    accessToken,
   } = useContext(MemoContext);
 
   useEffect(() => {
@@ -57,7 +58,7 @@ export const MemoItem = () => {
 
     let data = {
       headers: {
-        'X-ACCESS-TOKEN': '0f28d368-4347-4653-b4b6-94392e644444',
+        'X-ACCESS-TOKEN': accessToken,
         'content-type': 'application/json',
       },
     };
@@ -70,7 +71,7 @@ export const MemoItem = () => {
   const handleDelete = (id, category_id) => {
     let data = {
       headers: {
-        'X-ACCESS-TOKEN': '0f28d368-4347-4653-b4b6-94392e644444',
+        'X-ACCESS-TOKEN': accessToken,
         'content-type': 'application/json',
       },
     };
