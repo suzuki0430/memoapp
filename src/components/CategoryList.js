@@ -30,6 +30,12 @@ export const CategoryList = () => {
     nested: {
       paddingLeft: theme.spacing(4),
     },
+    button: {
+      textAlign: 'end',
+      marginTop: 10,
+      marginBottom: 15,
+      paddingRight: 10,
+    },
   }));
 
   const theme = createTheme({
@@ -179,14 +185,7 @@ export const CategoryList = () => {
           );
         })}
       </List>
-      <div
-        style={{
-          textAlign: 'end',
-          marginTop: 10,
-          marginBottom: 15,
-          paddingRight: 10,
-        }}
-      >
+      <div className={classes.button}>
         <ThemeProvider theme={theme}>
           <Button
             id="new-memo"
