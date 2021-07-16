@@ -3,7 +3,7 @@ import TextField from '@material-ui/core/TextField';
 import Input from '@material-ui/core/Input';
 import { createTheme, ThemeProvider } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import { green } from '@material-ui/core/colors';
+import { green, red } from '@material-ui/core/colors';
 
 import { MemoContext } from '../providers/memoProvider';
 
@@ -13,6 +13,7 @@ export const MemoItem = () => {
   const theme = createTheme({
     palette: {
       primary: green,
+      secondary: red,
     },
   });
 
@@ -21,8 +22,15 @@ export const MemoItem = () => {
 
   const [disabled, setDisabled] = useState(true);
 
-  const { memoId, memoTitle, memoContent, memoCategoryId } =
-    useContext(MemoContext);
+  const {
+    memoId,
+    memoTitle,
+    setMemoTitle,
+    memoContent,
+    setMemoContent,
+    memoCategoryId,
+    setMemoList,
+  } = useContext(MemoContext);
 
   useEffect(() => {
     if (memoTitle === '' || memoContent === '') return;
@@ -59,6 +67,31 @@ export const MemoItem = () => {
     });
   };
 
+  const handleDelete = (id, category_id) => {
+    let data = {
+      headers: {
+        'X-ACCESS-TOKEN': '0f28d368-4347-4653-b4b6-94392e644444',
+        'content-type': 'application/json',
+      },
+    };
+
+    informations.delete(`/memo/${id}`, data).then((res) => {
+      // メモアイテムを更新する
+      informations
+        .get(`/memo/?category_id=${category_id}`, data)
+        .then((res) => {
+          setMemoList(res.data);
+        });
+
+      //　メモアイテムを未選択にする
+      setMemoTitle('');
+      setMemoContent('');
+      setTitle('');
+      setContent('');
+      setDisabled(true);
+    });
+  };
+
   return (
     <div>
       <div style={{ marginBottom: 50 }}>
@@ -92,8 +125,21 @@ export const MemoItem = () => {
             color="primary"
             disabled={disabled}
             onClick={() => handleSave(memoId, memoCategoryId, title, content)}
+            style={{ marginRight: 10 }}
           >
             <span style={{ color: '#fff' }}>SAVE</span>
+          </Button>
+        </ThemeProvider>
+
+        <ThemeProvider theme={theme}>
+          <Button
+            id="delete-memo"
+            variant="contained"
+            color="secondary"
+            disabled={disabled}
+            onClick={() => handleDelete(memoId, memoCategoryId)}
+          >
+            <span style={{ color: '#fff' }}>DELETE</span>
           </Button>
         </ThemeProvider>
       </div>

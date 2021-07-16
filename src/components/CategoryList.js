@@ -41,12 +41,17 @@ export const CategoryList = () => {
   const classes = useStyles();
 
   const [categoryList, setCategoryList] = useState([]);
-  const [memoList, setMemoList] = useState([]);
   const [selectedId, setSelectedId] = useState('');
   const [disabled, setDisabled] = useState(true);
 
-  const { setMemoId, setMemoTitle, setMemoContent, setMemoCategoryId } =
-    useContext(MemoContext);
+  const {
+    setMemoId,
+    setMemoTitle,
+    setMemoContent,
+    setMemoCategoryId,
+    memoList,
+    setMemoList,
+  } = useContext(MemoContext);
 
   // フォルダをクリックしたときの処理
   const handleClick = (id) => {

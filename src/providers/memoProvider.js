@@ -9,6 +9,8 @@ const defaultValue = {
   setMemoContent: () => {},
   memoCategoryId: null,
   setMemoCategoryId: () => {},
+  memoList: [],
+  setMemoList: () => {},
 };
 
 export const MemoContext = createContext(defaultValue);
@@ -18,6 +20,7 @@ export const MemoProvider = ({ children }) => {
   const [memoTitle, setMemoTitle] = useState('');
   const [memoContent, setMemoContent] = useState('');
   const [memoCategoryId, setMemoCategoryId] = useState(null);
+  const [memoList, setMemoList] = useState([]);
 
   return (
     <MemoContext.Provider
@@ -30,6 +33,8 @@ export const MemoProvider = ({ children }) => {
         setMemoContent,
         memoCategoryId,
         setMemoCategoryId,
+        memoList,
+        setMemoList,
       }}
     >
       {children}
