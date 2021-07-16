@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import TextField from '@material-ui/core/TextField';
+import Input from '@material-ui/core/Input';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,11 +19,8 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
-  form: {
-    '& > *': {
-      margin: theme.spacing(1),
-      width: '100ch',
-    },
+  input: {
+    flexGrow: 1,
   },
 }));
 
@@ -33,7 +30,7 @@ export const Header = () => {
   const [token, setToken] = useState('');
 
   const handleChange = (e) => {
-    setToken(() => e.target.value);
+    setToken(e.target.value);
   };
 
   const isLoginEnabled = (str) => {
@@ -58,21 +55,14 @@ export const Header = () => {
           <Typography variant="h6" className={classes.title}>
             Memo App
           </Typography>
-          <form className={classes.form} noValidate autoComplete="off">
-            <TextField
-              id="access_token"
-              type="text"
-              label="Access Token"
-              placeholder="0f28d368-4347-4653-b4b6-94392e644444"
-              fullWidth
-              margin="normal"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              value={token}
-              onChange={handleChange}
-            />
-          </form>
+          <Input
+            id="access_token"
+            className={classes.input}
+            type="text"
+            placeholder="0f28d368-4347-4653-b4b6-94392e644444"
+            value={token}
+            onChange={handleChange}
+          />
           <Button id="login" color="inherit" disabled={isLoginEnabled(token)}>
             LOGIN
           </Button>
